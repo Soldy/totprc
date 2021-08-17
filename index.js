@@ -3,10 +3,23 @@
 const $crypto = require('crypto');
 
 
+/*
+ * @prototype
+ */
 const totpBase = function(){
+    /*
+     * @param {string}
+     * @public
+     * @return {integer}
+    */
     this.get = function(key){
         return _get(key);
     }
+    /*
+     * @param {string}
+     * @private
+     * @return {buffer}
+    */
     const _counterByte = function(){
         let now = Math.floor((Date.now() / 1000) / 30);
         let out = [];
@@ -17,6 +30,11 @@ const totpBase = function(){
         out.reverse();
         return Buffer.from(out);
     }
+    /*
+     * @param {string}
+     * @private
+     * @return {buffer}
+    */
     const _toBytes = function(hex) {
         let bytes = [];
         const length = parseInt(hex.length);
@@ -29,6 +47,11 @@ const totpBase = function(){
             );
         return bytes;
     }
+    /*
+     * @param {string}
+     * @private
+     * @return {integer}
+    */
     const _get = function(key){
         const bytes = _toBytes(
             ($crypto.createHmac('sha1', Buffer.from(key))).
